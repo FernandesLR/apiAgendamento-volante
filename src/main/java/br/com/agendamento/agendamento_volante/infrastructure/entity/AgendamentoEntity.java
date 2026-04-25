@@ -1,10 +1,8 @@
 package br.com.agendamento.agendamento_volante.infrastructure.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -13,6 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class AgendamentoEntity {
 
     @Id
@@ -22,13 +21,13 @@ public class AgendamentoEntity {
     @Column(nullable = false)
     private String nomeClinica;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String emailClinica;
 
     @Column(nullable = false)
     private LocalDateTime dataAgendada;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String endereco;
 
     @Column(nullable = false)
