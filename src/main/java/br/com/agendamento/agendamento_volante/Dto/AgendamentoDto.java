@@ -1,18 +1,26 @@
 package br.com.agendamento.agendamento_volante.Dto;
 
 import br.com.agendamento.agendamento_volante.infrastructure.entity.AgendamentoEntity;
+import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record AgendamentoDto(
         UUID idAgenda,
+        @NotBlank
         String nomeClinica,
+        @NotBlank
         String emailClinica,
+
         LocalDateTime dataAgendada,
+        @NotBlank
         String endereco,
+        @NotBlank
         String tipoServico,
+        @NotBlank
         String animal,
+        @NotBlank
         String status
 ) {
 
