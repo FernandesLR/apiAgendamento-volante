@@ -26,15 +26,7 @@ public class AgendamentoService {
     }
 
     public void salvarAgendamento(AgendamentoDto ag){
-        AgendamentoEntity novaAgenda = AgendamentoEntity.builder()
-                .nomeClinica(ag.nomeClinica())
-                .emailClinica(ag.emailClinica())
-                .dataAgendada(ag.dataAgendada())
-                .endereco(ag.endereco())
-                .tipoServico(ag.tipoServico())
-                .animal(ag.animal())
-                .status("PENDENTE")
-                .build();
+        AgendamentoEntity novaAgenda = ag.toEntity();
         agendaRepo.save(novaAgenda);
     }
 
