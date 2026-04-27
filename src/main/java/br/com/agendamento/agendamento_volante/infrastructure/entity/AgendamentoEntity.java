@@ -12,6 +12,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
+@Table(name = "tb_agendamentos")
 public class AgendamentoEntity {
 
     @Id
