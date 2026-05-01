@@ -14,4 +14,16 @@ public record ClinicaDTO(
     }
 
 
+    public ClinicaEntity toEntity(){
+        return ClinicaEntity.builder()
+                .nome(this.nome)
+                .cnpj(this.cnpj)
+                .endereco(this.endereco)
+                .telefone(this.telefone)
+                .email(this.email)
+                .senha(this.senha)
+                .build();
+    }
+
+
 }
