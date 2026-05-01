@@ -37,6 +37,8 @@ public class ClinicaEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
+    private String senha;
+
     @OneToMany(mappedBy = "clinica", fetch = FetchType.LAZY)
     private List<AgendamentoEntity> agendamentos;
 }
