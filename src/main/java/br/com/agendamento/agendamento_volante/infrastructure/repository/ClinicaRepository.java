@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.UUID;
 
 public interface ClinicaRepository extends JpaRepository<ClinicaEntity, UUID> {
-
+    ClinicaEntity findByEmailAndSenha(String email, String senha);
 }
