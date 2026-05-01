@@ -1,5 +1,6 @@
 package br.com.agendamento.agendamento_volante.service;
 
+import br.com.agendamento.agendamento_volante.Dto.ClinicaDTO;
 import br.com.agendamento.agendamento_volante.infrastructure.entity.ClinicaEntity;
 import br.com.agendamento.agendamento_volante.infrastructure.repository.ClinicaRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,5 +22,8 @@ public class ClinicaService {
 
     }
 
+    public void salvar(ClinicaDTO cli){
+        clinicaRepo.save(cli.toEntity());
+    }
 
 }
