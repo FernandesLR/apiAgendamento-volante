@@ -17,7 +17,7 @@ public class TokenProvider {
     @Value("${api.security.token.expiration}")
     private long expirationTime;
     @Value("${api.security.token.secret}")
-    private long key;
+    private String key;
 
     // gerar token
     public String gerarToken(Authentication auth){
