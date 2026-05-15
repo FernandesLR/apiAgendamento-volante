@@ -14,14 +14,14 @@ public class ClinicaController {
 
     private final ClinicaService clinicaService;
 
-    @PostMapping("/cadastrar")
+    @PostMapping("/auth/registrar")
     @ResponseStatus(HttpStatus.CREATED)
     public void criarConta(@Valid @RequestBody ClinicaDTO clinica){
         clinicaService.salvar(clinica);
 
     }
 
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     @ResponseStatus(HttpStatus.OK)
     public ClinicaDTO login(@Valid @RequestBody ClinicaDTO clinica){
         return clinicaService.buscarClinica(clinica.email(), clinica.senha());
