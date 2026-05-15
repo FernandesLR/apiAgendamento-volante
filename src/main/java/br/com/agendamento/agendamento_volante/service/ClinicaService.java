@@ -21,7 +21,12 @@ public class ClinicaService {
     }
 
     public void salvar(ClinicaDTO cli){
-        clinicaRepo.save(cli.toEntity());
+        var clinica = cli.toEntity();
+
+        String senhaCriptografada = passwordEncoder.encode(clinica.getSenha());
+        clinica.setSenha(senhaCriptografada);
+
+        clinicaRepo.save(clinica);
     }
 
 }
