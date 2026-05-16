@@ -18,15 +18,12 @@ public record ClinicaDTO(
     String telefone,
     @NotBlank
     @Email(message = "Email deve ser válido")
-    String email,
-    @NotBlank
-    @Size(min = 5, message = "A senha deve conter no mínimo 5 caracteres")
-    String senha
+    String email
 ) {
 
     public static ClinicaDTO fromEntity(ClinicaEntity clinica){
         return new ClinicaDTO(clinica.getNome(), clinica.getCnpj(),
-                clinica.getEndereco(), clinica.getTelefone(), clinica.getEmail(), clinica.getSenha()
+                clinica.getEndereco(), clinica.getTelefone(), clinica.getEmail()
                 );
 
     }
@@ -39,7 +36,6 @@ public record ClinicaDTO(
                 .endereco(this.endereco)
                 .telefone(this.telefone)
                 .email(this.email)
-                .senha(this.senha)
                 .build();
     }
 
