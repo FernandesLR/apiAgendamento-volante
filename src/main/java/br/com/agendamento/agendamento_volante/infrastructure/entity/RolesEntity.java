@@ -1,9 +1,7 @@
 package br.com.agendamento.agendamento_volante.infrastructure.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,6 +16,7 @@ import org.springframework.security.core.GrantedAuthority;
 public class RolesEntity implements GrantedAuthority {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     private String nome;
