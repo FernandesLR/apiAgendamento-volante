@@ -62,6 +62,9 @@ public class AuthenticationService {
 
     public TokenDTO login(LoginRequestDTO dto) throws Exception{
         try{
+            if(clinicaRepo.findByEmail(dto.email()).isEmpty()){
+                throw new RuntimeException("Usuário não cadastrado");
+            }
             Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dto.email(), dto.senha()));
             String token = tokenProvider.gerarToken(auth);
             return new TokenDTO(token, expirationTime);
