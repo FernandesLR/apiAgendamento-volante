@@ -34,8 +34,9 @@ public class AuthenticationService {
 
     public void registrar(RegisterRequestDTO dados) {
 
-        if (clinicaRepo.findByEmail(dados.email()).isPresent()) {
-            throw new RuntimeException("Usuário já cadastrado");
+
+        if (clinicaRepo.findByEmailOrCnpj(dados.email(), dados.cnpj()).isPresent()) {
+            throw new RuntimeException("Email ou Cnpj já cadastrado");
         }
 
 
@@ -44,8 +45,6 @@ public class AuthenticationService {
                     RolesEntity novaRole = RolesEntity.builder().nome("CLINICA").build();
                     return roleRepository.save(novaRole);
                 });
-
-
 
 
         clinicaRepo.save(ClinicaEntity.builder()
