@@ -40,9 +40,9 @@ public class AuthenticationService {
         }
 
 
-        RolesEntity role = roleRepository.findByNome("CLINICA")
+        RolesEntity role = roleRepository.findByNome("ROLE_CLINICA")
                 .orElseGet(() -> {
-                    RolesEntity novaRole = RolesEntity.builder().nome("CLINICA").build();
+                    RolesEntity novaRole = RolesEntity.builder().nome("ROLE_CLINICA").build();
                     return roleRepository.save(novaRole);
                 });
 
