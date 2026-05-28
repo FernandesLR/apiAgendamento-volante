@@ -8,4 +8,5 @@ import java.util.UUID;
 
 public interface ClinicaRepository extends JpaRepository<ClinicaEntity, UUID> {
     Optional<ClinicaEntity> findByEmail(String email);
+    Optional<ClinicaEntity> findByEmailOrCnpj(String email, String cnpj);
 }
