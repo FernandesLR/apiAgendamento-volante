@@ -19,6 +19,5 @@ public record RegisterRequestDTO(
         String email,
         @NotBlank
         @Size(min = 5)
-        String senha,
-        String role
+        String senha
 ) {}
