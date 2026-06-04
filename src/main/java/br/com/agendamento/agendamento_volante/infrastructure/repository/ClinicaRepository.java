@@ -1,0 +1,14 @@
+package br.com.agendamento.agendamento_volante.infrastructure.repository;
+
+import br.com.agendamento.agendamento_volante.infrastructure.entity.ClinicaEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+import java.util.UUID;
+
+public interface ClinicaRepository extends JpaRepository<ClinicaEntity, UUID> {
+    Optional<ClinicaEntity> findByEmail(String email);
+    Optional<ClinicaEntity> findByEmailOrCnpj(String email, String cnpj);
+    void deleteByEmail(String email);
+
+}

@@ -12,12 +12,17 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
+@Table(name = "tb_agendamentos")
 public class AgendamentoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID idAgenda;
-    // adicionar id da clinica aqui
+
+    @ManyToOne
+    @JoinColumn(name = "clinica_id", nullable = false)
+    private ClinicaEntity clinica;
+
     @Column(nullable = false)
     private String nomeClinica;
 
