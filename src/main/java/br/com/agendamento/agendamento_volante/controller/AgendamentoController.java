@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,17 +21,18 @@ public class AgendamentoController {
 
     private final AgendamentoService agendamentoService;
 
-    @GetMapping
+    @GetMapping("/listarAgendamentos")
     @ResponseStatus(HttpStatus.OK)
-    public List<AgendamentoDto> listarAgendamentos(){
+    public List<AgendamentoDto> listarTodosAgendamentos(){
         List<AgendamentoEntity> lista = agendamentoService.listarAgendamentos();
         return lista.stream().map(AgendamentoDto::fromEntity).toList();
     }
 
-    @PostMapping
+    @PostMapping("/criar")
     @ResponseStatus(HttpStatus.CREATED)
-    public void criarAgendamento(@Valid @RequestBody AgendamentoDto agd){
-        agendamentoService.salvarAgendamento(agd);
+    public void criarAgendamento(@Valid @RequestBody AgendamentoDto agd, Authentication auth){
+        String emailLogado = auth.getName();
+        agendamentoService.salvarAgendamento(agd, emailLogado);
     }
 
 }
