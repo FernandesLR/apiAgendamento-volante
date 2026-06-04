@@ -1,17 +1,22 @@
 package br.com.agendamento.agendamento_volante.Dto;
 
 import br.com.agendamento.agendamento_volante.infrastructure.entity.AgendamentoEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
 
 public record AgendamentoDto(
-        @NotBlank
+        @NotNull(message = "A data do agendamento é obrigatória.")
+        @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
         LocalDateTime dataAgendada,
-        @NotBlank
+
+        @NotBlank(message = "O tipo de serviço é obrigatório.")
         String tipoServico,
-        @NotBlank
+
+        @NotBlank(message = "A identificação do animal é obrigatória.")
         String animal
 ) {
 
