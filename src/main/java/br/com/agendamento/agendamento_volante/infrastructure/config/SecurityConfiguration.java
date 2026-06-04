@@ -32,6 +32,7 @@ public class SecurityConfiguration {
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(HttpMethod.POST, "/clinica/auth/**").permitAll();
+                    auth.requestMatchers("/agendamentos/**").authenticated();
                     auth.anyRequest().authenticated();
                 })
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
