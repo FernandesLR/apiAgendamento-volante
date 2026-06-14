@@ -1,6 +1,7 @@
 package br.com.agendamento.agendamento_volante.controller;
 
 import br.com.agendamento.agendamento_volante.Dto.AgendamentoDto;
+import br.com.agendamento.agendamento_volante.Dto.AgendamentoResponseDTO;
 import br.com.agendamento.agendamento_volante.infrastructure.entity.AgendamentoEntity;
 import br.com.agendamento.agendamento_volante.service.AgendamentoService;
 import jakarta.validation.Valid;
@@ -26,6 +27,13 @@ public class AgendamentoController {
     public List<AgendamentoDto> listarTodosAgendamentos(){
         List<AgendamentoEntity> lista = agendamentoService.listarAgendamentos();
         return lista.stream().map(AgendamentoDto::fromEntity).toList();
+    }
+
+    @GetMapping("/meus-agendamentos")
+    @ResponseStatus(HttpStatus.OK)
+    public List<AgendamentoResponseDTO> listarAgendamentosPorEmail(Authentication auth){
+        String email = auth.getName();
+        return agendamentoService.listarAgendamentosPorEmail(email);
     }
 
     @PostMapping("/criar")
