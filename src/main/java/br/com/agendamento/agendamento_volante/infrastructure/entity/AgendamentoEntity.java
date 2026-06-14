@@ -26,7 +26,7 @@ public class AgendamentoEntity {
     @Column(nullable = false)
     private String nomeClinica;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String emailClinica;
 
     @Column(nullable = false)
