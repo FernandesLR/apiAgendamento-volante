@@ -1,12 +1,14 @@
 package br.com.agendamento.agendamento_volante.service;
 
 import br.com.agendamento.agendamento_volante.Dto.AgendamentoDto;
+import br.com.agendamento.agendamento_volante.Dto.AgendamentoResponseDTO;
 import br.com.agendamento.agendamento_volante.infrastructure.entity.AgendamentoEntity;
 import br.com.agendamento.agendamento_volante.infrastructure.entity.ClinicaEntity;
 import br.com.agendamento.agendamento_volante.infrastructure.repository.AgendamentoRepository;
 import br.com.agendamento.agendamento_volante.infrastructure.repository.ClinicaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,16 @@ public class AgendamentoService {
         }
 
         return agenda;
+    }
+
+    public List<AgendamentoResponseDTO> listarAgendamentosPorEmail(String emailLogado){
+        List<AgendamentoEntity> agendamentos = agendaRepo.findByEmailClinica(emailLogado);
+
+        if(agendamentos.isEmpty()){
+            throw new EntityNotFoundException("Nenhum agendamento marcado");
+        }
+
+        return agendamentos.stream().map(AgendamentoResponseDTO::fromEntity).toList();
     }
 
     public void salvarAgendamento(AgendamentoDto ag, String usuarioLogado){
