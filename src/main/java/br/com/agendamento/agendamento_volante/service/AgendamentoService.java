@@ -8,6 +8,7 @@ import br.com.agendamento.agendamento_volante.infrastructure.repository.Agendame
 import br.com.agendamento.agendamento_volante.infrastructure.repository.ClinicaRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -41,11 +42,14 @@ public class AgendamentoService {
         return agendamentos.stream().map(AgendamentoResponseDTO::fromEntity).toList();
     }
 
+    @Transactional
     public void salvarAgendamento(AgendamentoDto ag, String usuarioLogado){
         // verifica se já existe um agendamento que já foi marcado para aquele mesmo dia e hora
         if(agendaRepo.existsByDataAgendada(ag.dataAgendada())){
             throw new IllegalArgumentException("Agendamento indisponivel para este horário");
         }
+
+        validarAgendamento(ag.dataAgendada());
 
 
         ClinicaEntity clinicaLogada = clinicaRepository.findByEmail(usuarioLogado)
@@ -63,6 +67,29 @@ public class AgendamentoService {
         novaAgenda.setStatus("PENDENTE"); // todo agendamento nasce como pendente
 
         agendaRepo.save(novaAgenda);
+    }
+
+    public void validarAgendamento(LocalDateTime novaData){
+        LocalDateTime inicioDia = novaData.toLocalDate().atStartOfDay();
+        LocalDateTime fimDia = novaData.toLocalDate().atTime(23,59,59);
+
+        List<AgendamentoEntity> agendamentosDoDia = agendaRepo.findByDataAgendadaBetween(inicioDia,fimDia);
+
+        LocalDateTime novoFim = novaData.plusMinutes(45);
+
+        for (AgendamentoEntity agendamento : agendamentosDoDia) {
+            LocalDateTime existenteInicio = agendamento.getDataAgendada();
+            LocalDateTime existenteFim = existenteInicio.plusMinutes(45);
+
+            // Valida se há intersecção (tanto antes quanto depois)
+            if (novaData.isBefore(existenteFim) && novoFim.isAfter(existenteInicio)) {
+                throw new IllegalArgumentException(
+                        "Horário indisponível! Conflito com o agendamento das "
+                                + existenteInicio.format(java.time.format.DateTimeFormatter.ofPattern("HH:mm"))
+                );
+            }
+        }
+
     }
 
 }
