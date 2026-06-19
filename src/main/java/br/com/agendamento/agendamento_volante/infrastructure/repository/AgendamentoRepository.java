@@ -15,4 +15,6 @@ public interface AgendamentoRepository extends JpaRepository<AgendamentoEntity, 
 
     boolean existsByDataAgendada(LocalDateTime dataAgendada);
 
+    List<AgendamentoEntity> findByDataAgendadaBetween(LocalDateTime inicioDoDia, LocalDateTime fimDoDia);
+
 }
