@@ -6,13 +6,12 @@ import br.com.agendamento.agendamento_volante.infrastructure.entity.AgendamentoE
 import br.com.agendamento.agendamento_volante.infrastructure.entity.ClinicaEntity;
 import br.com.agendamento.agendamento_volante.infrastructure.repository.AgendamentoRepository;
 import br.com.agendamento.agendamento_volante.infrastructure.repository.ClinicaRepository;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.BadRequestException;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.parser.Entity;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -43,6 +42,12 @@ public class AgendamentoService {
     }
 
     public void salvarAgendamento(AgendamentoDto ag, String usuarioLogado){
+        // verifica se já existe um agendamento que já foi marcado para aquele mesmo dia e hora
+        if(agendaRepo.existsByDataAgendada(ag.dataAgendada())){
+            throw new IllegalArgumentException("Agendamento indisponivel para este horário");
+        }
+
+
         ClinicaEntity clinicaLogada = clinicaRepository.findByEmail(usuarioLogado)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não cadastrado"));
 
