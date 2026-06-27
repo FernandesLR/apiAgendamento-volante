@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +23,9 @@ public class AgendamentoController {
 
     private final AgendamentoService agendamentoService;
 
-    @GetMapping("/listarAgendamentos")
+    @GetMapping("/admin/todos-agendamentos")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public List<AgendamentoDto> listarTodosAgendamentos(){
         List<AgendamentoEntity> lista = agendamentoService.listarAgendamentos();
         return lista.stream().map(AgendamentoDto::fromEntity).toList();
