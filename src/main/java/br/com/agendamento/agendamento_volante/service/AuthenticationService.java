@@ -1,5 +1,6 @@
 package br.com.agendamento.agendamento_volante.service;
 
+import br.com.agendamento.agendamento_volante.Dto.CadastroAdminDto;
 import br.com.agendamento.agendamento_volante.Dto.LoginRequestDTO;
 import br.com.agendamento.agendamento_volante.Dto.RegisterRequestDTO;
 import br.com.agendamento.agendamento_volante.Dto.TokenDTO;
@@ -54,6 +55,27 @@ public class AuthenticationService {
                 .build();
 
         clinicaRepo.save(novaClinica);
+    }
+
+    // Dentro do AuthenticationService.java
+    public void registrarAdmin(CadastroAdminDto dto) {
+        if (clinicaRepo.findByEmail(dto.email()).isPresent()) {
+            throw new IllegalArgumentException("E-mail já cadastrado no sistema.");
+        }
+
+        RolesEntity roleAdmin = roleRepository.findByNome("ROLE_ADMIN")
+                .orElseGet(() -> roleRepository.save(
+                        RolesEntity.builder().nome("ROLE_ADMIN").build()
+                ));
+
+        UsuarioEntity novoAdmin = UsuarioEntity.builder()
+                .nome(dto.nome())
+                .email(dto.email())
+                .senha(passwordEncoder.encode(dto.senha()))
+                .roles(Set.of(roleAdmin))
+                .build();
+
+        clinicaRepo.save(novoAdmin);
     }
 
     public TokenDTO login(LoginRequestDTO dto) {
