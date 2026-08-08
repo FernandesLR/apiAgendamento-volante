@@ -1,16 +1,14 @@
 package br.com.agendamento.agendamento_volante.service;
 
-import br.com.agendamento.agendamento_volante.Dto.ClinicaDTO;
+import br.com.agendamento.agendamento_volante.Dto.CadastroAdminDto;
 import br.com.agendamento.agendamento_volante.Dto.ClinicaUpdateDTO;
-import br.com.agendamento.agendamento_volante.infrastructure.entity.ClinicaEntity;
+import br.com.agendamento.agendamento_volante.infrastructure.entity.UsuarioEntity;
 import br.com.agendamento.agendamento_volante.infrastructure.repository.ClinicaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +25,7 @@ public class ClinicaService {
     }
     @Transactional
     public void alterarDados(String emailLogado, ClinicaUpdateDTO dto){
-        ClinicaEntity clinica = clinicaRepo.findByEmail(emailLogado).orElseThrow(() -> new EntityNotFoundException("Usuário não cadastrado"));
+        UsuarioEntity clinica = clinicaRepo.findByEmail(emailLogado).orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
         // email, senha telefone
         if(dto.email() != null){
             clinica.setEmail(dto.email());
