@@ -3,10 +3,9 @@ package br.com.agendamento.agendamento_volante.service;
 import br.com.agendamento.agendamento_volante.Dto.AgendamentoDto;
 import br.com.agendamento.agendamento_volante.Dto.AgendamentoResponseDTO;
 import br.com.agendamento.agendamento_volante.infrastructure.entity.AgendamentoEntity;
-import br.com.agendamento.agendamento_volante.infrastructure.entity.ClinicaEntity;
+import br.com.agendamento.agendamento_volante.infrastructure.entity.UsuarioEntity;
 import br.com.agendamento.agendamento_volante.infrastructure.repository.AgendamentoRepository;
 import br.com.agendamento.agendamento_volante.infrastructure.repository.ClinicaRepository;
-import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +51,7 @@ public class AgendamentoService {
         validarAgendamento(ag.dataAgendada());
 
 
-        ClinicaEntity clinicaLogada = clinicaRepository.findByEmail(usuarioLogado)
+        UsuarioEntity clinicaLogada = clinicaRepository.findByEmail(usuarioLogado)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não cadastrado"));
 
         // converte os dados que vem do controller para entity
