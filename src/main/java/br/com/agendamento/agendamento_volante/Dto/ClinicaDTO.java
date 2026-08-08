@@ -1,10 +1,9 @@
 package br.com.agendamento.agendamento_volante.Dto;
 
-import br.com.agendamento.agendamento_volante.infrastructure.entity.ClinicaEntity;
+import br.com.agendamento.agendamento_volante.infrastructure.entity.UsuarioEntity;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 
 public record ClinicaDTO(
     @NotBlank
@@ -21,7 +20,7 @@ public record ClinicaDTO(
     String email
 ) {
 
-    public static ClinicaDTO fromEntity(ClinicaEntity clinica){
+    public static ClinicaDTO fromEntity(UsuarioEntity clinica){
         return new ClinicaDTO(clinica.getNome(), clinica.getCnpj(),
                 clinica.getEndereco(), clinica.getTelefone(), clinica.getEmail()
                 );
@@ -29,8 +28,8 @@ public record ClinicaDTO(
     }
 
 
-    public ClinicaEntity toEntity(){
-        return ClinicaEntity.builder()
+    public UsuarioEntity toEntity(){
+        return UsuarioEntity.builder()
                 .nome(this.nome)
                 .cnpj(this.cnpj)
                 .endereco(this.endereco)
