@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,36 +20,40 @@ import java.util.UUID;
 @Setter
 @Builder
 @Entity
-@Table(name = "tb_clinicas")
-public class ClinicaEntity implements UserDetails {
+@Table(name = "tb_usuario")
+// Pode ser tanto clínica quanto o adm do sistema
+public class UsuarioEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_clinica")
-    private UUID idClinica;
+    @Column(name = "id_usuario")
+    private UUID idUsuario;
 
     @Column(nullable = false, length = 150)
     private String nome;
 
-    @Column(nullable = false, unique = true, length = 18)
+    // CNPJ opcional para permitir ADM (a validação de obrigatoriedade fica no DTO da Clínica)
+    @Column(unique = true, length = 18)
     private String cnpj;
 
-    @Column(nullable = false)
+    // Endereço opcional para permitir ADM
     private String endereco;
 
-    @Column(nullable = false, length = 20)
+    // Telefone opcional para permitir ADM
+    @Column(length = 20)
     private String telefone;
 
     @Email
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
     private String senha;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "clinicas_roles",
-            joinColumns = @JoinColumn(name = "clinica_id"),
+            name = "usuarios_roles",
+            joinColumns = @JoinColumn(name = "usuario_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<RolesEntity> roles;
@@ -58,13 +63,13 @@ public class ClinicaEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.email.equals("admin@volante.com")) {
-            return List.of(new SimpleGrantedAuthority("ADMIN"));
+        if (this.roles == null) {
+            return List.of();
         }
-        return roles;
+        return this.roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getNome()))
+                .collect(Collectors.toSet());
     }
-
-
 
     @Override
     public @Nullable String getPassword() {
