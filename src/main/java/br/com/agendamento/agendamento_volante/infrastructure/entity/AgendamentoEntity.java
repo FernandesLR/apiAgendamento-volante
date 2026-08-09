@@ -21,7 +21,7 @@ public class AgendamentoEntity {
 
     @ManyToOne
     @JoinColumn(name = "clinica_id", nullable = false)
-    private ClinicaEntity clinica;
+    private UsuarioEntity clinica;
 
     @Column(nullable = false)
     private String nomeClinica;
