@@ -25,10 +25,10 @@ public class AgendamentoController {
 
     @GetMapping("/admin/todos-agendamentos")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public List<AgendamentoDto> listarTodosAgendamentos(){
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<AgendamentoResponseDTO> listarTodosAgendamentos(){
         List<AgendamentoEntity> lista = agendamentoService.listarAgendamentos();
-        return lista.stream().map(AgendamentoDto::fromEntity).toList();
+        return lista.stream().map(AgendamentoResponseDTO::fromEntity).toList();
     }
 
     @GetMapping("/meus-agendamentos")
