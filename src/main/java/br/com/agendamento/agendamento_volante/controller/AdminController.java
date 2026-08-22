@@ -1,8 +1,6 @@
 package br.com.agendamento.agendamento_volante.controller;
 
-import br.com.agendamento.agendamento_volante.Dto.CadastroAdminDto;
-import br.com.agendamento.agendamento_volante.Dto.LoginRequestDTO;
-import br.com.agendamento.agendamento_volante.Dto.TokenDTO;
+import br.com.agendamento.agendamento_volante.Dto.*;
 import br.com.agendamento.agendamento_volante.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
