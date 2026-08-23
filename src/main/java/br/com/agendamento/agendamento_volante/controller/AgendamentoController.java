@@ -2,6 +2,7 @@ package br.com.agendamento.agendamento_volante.controller;
 
 import br.com.agendamento.agendamento_volante.Dto.AgendamentoDto;
 import br.com.agendamento.agendamento_volante.Dto.AgendamentoResponseDTO;
+import br.com.agendamento.agendamento_volante.Dto.AgendamentoStatusUpdateDTO;
 import br.com.agendamento.agendamento_volante.infrastructure.entity.AgendamentoEntity;
 import br.com.agendamento.agendamento_volante.service.AgendamentoService;
 import jakarta.validation.Valid;
@@ -29,6 +30,14 @@ public class AgendamentoController {
     public List<AgendamentoResponseDTO> listarTodosAgendamentos(){
         List<AgendamentoEntity> lista = agendamentoService.listarAgendamentos();
         return lista.stream().map(AgendamentoResponseDTO::fromEntity).toList();
+    }
+
+    @PutMapping("/admin/todos-agendamentos/atualizar")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<AgendamentoResponseDTO> atualizarAgendamento(@RequestBody List<AgendamentoStatusUpdateDTO> dto){
+        agendamentoService.atualizarStatus(dto);
+        return agendamentoService.listarAgendamentos().stream().map(AgendamentoResponseDTO::fromEntity).toList();
     }
 
     @GetMapping("/meus-agendamentos")
