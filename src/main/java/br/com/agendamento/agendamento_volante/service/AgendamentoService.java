@@ -2,6 +2,7 @@ package br.com.agendamento.agendamento_volante.service;
 
 import br.com.agendamento.agendamento_volante.Dto.AgendamentoDto;
 import br.com.agendamento.agendamento_volante.Dto.AgendamentoResponseDTO;
+import br.com.agendamento.agendamento_volante.Dto.AgendamentoStatusUpdateDTO;
 import br.com.agendamento.agendamento_volante.infrastructure.entity.AgendamentoEntity;
 import br.com.agendamento.agendamento_volante.infrastructure.entity.UsuarioEntity;
 import br.com.agendamento.agendamento_volante.infrastructure.repository.AgendamentoRepository;
@@ -89,6 +90,15 @@ public class AgendamentoService {
             }
         }
 
+    }
+    @Transactional
+    public void atualizarStatus(List<AgendamentoStatusUpdateDTO> listaUpdates) {
+        for (AgendamentoStatusUpdateDTO dto : listaUpdates) {
+            AgendamentoEntity agendamento = agendaRepo.findById(dto.id())
+                    .orElseThrow(() -> new EntityNotFoundException("Agendamento id " + dto.id() + " não encontrado."));
+
+            agendamento.setStatus(dto.status());
+        }
     }
 
 }
