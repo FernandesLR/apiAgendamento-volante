@@ -3,8 +3,10 @@ package br.com.agendamento.agendamento_volante.Dto;
 import br.com.agendamento.agendamento_volante.infrastructure.entity.AgendamentoEntity;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public record AgendamentoResponseDTO(
+        UUID id,
         String nomeClinica,
         String emailClinica,
         LocalDateTime dataAgendada,
@@ -15,6 +17,7 @@ public record AgendamentoResponseDTO(
 ) {
     public static AgendamentoResponseDTO fromEntity(AgendamentoEntity entity) {
         return new AgendamentoResponseDTO(
+                entity.getIdAgenda(),
                 entity.getNomeClinica(),
                 entity.getEmailClinica(),
                 entity.getDataAgendada(),
