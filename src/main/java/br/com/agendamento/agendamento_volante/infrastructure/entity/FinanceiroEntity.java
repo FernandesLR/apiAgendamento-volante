@@ -12,6 +12,10 @@ public class FinanceiroEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @ManyToOne
+    @JoinColumn(name = "clinica_id", nullable = false)
+    private UsuarioEntity clinicaID;
+
     @Column(nullable = false)
     private float valor;
     private String descricao;
