@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/admin/financeiro")
@@ -19,34 +20,34 @@ public class FinanceiroController {
     // lista todos os dados do banco
     @GetMapping("/vendas")
     public ResponseEntity<List<FinanceiroDTO>> exibirVendas() {
-        return ResponseEntity.ok(financeiroService.exibirVendas());
+        return ResponseEntity.ok(financeiroService.listarVendas());
     }
 
     // busca um registro pelo id
     @GetMapping("/vendas/{id}")
-    public ResponseEntity<FinanceiroDTO> buscarVendaPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(financeiroService.buscarVendaPorId(id));
+    public ResponseEntity<FinanceiroDTO> buscarVendaPorId(@PathVariable UUID id) {
+        return ResponseEntity.ok(financeiroService.buscarPorId(id));
     }
 
     // cadastra dados
     @PostMapping("/vendas")
     @ResponseStatus(HttpStatus.CREATED)
     public void cadastrarVenda(@Valid @RequestBody FinanceiroDTO dto) {
-        FinanceiroDTO criado = financeiroService.cadastrarVenda(dto);
+        financeiroService.cadastrar(dto);
     }
 
     // edita ou atualiza dados
     @PutMapping("/vendas/{id}")
     public ResponseEntity<FinanceiroDTO> atualizarVenda(
-            @PathVariable Long id,
+            @PathVariable UUID id,
             @Valid @RequestBody FinanceiroDTO dto) {
-        return ResponseEntity.ok(financeiroService.atualizarVenda(id, dto));
+        return ResponseEntity.ok(financeiroService.atualizar(id, dto));
     }
 
     // deleta dados
     @DeleteMapping("/vendas/{id}")
-    public ResponseEntity<Void> deletarVenda(@PathVariable Long id) {
-        financeiroService.deletarVenda(id);
+    public ResponseEntity<Void> deletarVenda(@PathVariable UUID id) {
+        financeiroService.deletar(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
