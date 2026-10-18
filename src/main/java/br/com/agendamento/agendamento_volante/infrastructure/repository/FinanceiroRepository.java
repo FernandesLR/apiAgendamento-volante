@@ -4,10 +4,11 @@ import br.com.agendamento.agendamento_volante.infrastructure.entity.FinanceiroEn
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface FinanceiroRepository extends JpaRepository<FinanceiroEntity, UUID> {
-    
+    FinanceiroEntity findByID(UUID id);
 
 }
