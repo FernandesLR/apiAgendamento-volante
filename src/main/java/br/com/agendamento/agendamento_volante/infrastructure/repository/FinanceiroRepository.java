@@ -9,6 +9,6 @@ import java.util.UUID;
 
 @Repository
 public interface FinanceiroRepository extends JpaRepository<FinanceiroEntity, UUID> {
-    FinanceiroEntity findByID(UUID id);
+    Optional<FinanceiroEntity> findById(UUID id);
 
 }
