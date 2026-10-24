@@ -7,10 +7,11 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record FinanceiroDTO(
-        @NotNull UUID id,
+        UUID id,
+        @NotBlank String emailCli,
         @NotBlank String descricao,
         @NotNull  float valor,
-        @NotBlank LocalDateTime data,
+        @NotNull LocalDateTime data,
         @NotBlank String tipoLancamento
 ) {
 }
